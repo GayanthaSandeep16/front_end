@@ -1,0 +1,132 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f7fafc;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .navbar {
+    background-color: #000;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    font-size: 24px;
+    font-weight: bold;
+    width: 100%;
+  }
+  
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+    max-width: 1200px;
+    padding: 16px;
+  }
+  
+  .models-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  
+  .model-card {
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    background-color: white;
+    text-align: center;
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .model-card:hover {
+    background-color: #f1f5f9;
+  }
+  
+  /* Selected State */
+  .model-card.selected {
+    background-color: #3b82f6; /* Blue background */
+    color: white; /* White text */
+    border-color: #2563eb; /* Darker blue border */
+  }
+  
+  .drag-drop-section {
+    padding: 32px;
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    background-color: white;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .text-gray-600 {
+    color: #718096;
+  }
+  
+  .text-lg {
+    font-size: 18px;
+  }
+  
+  .mt-4 {
+    margin-top: 16px;
+  }
+  
+  .select-file-label {
+    margin-top: 16px;
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .select-file-label:hover {
+    background-color: #2a6df0;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .file-name {
+    margin-top: 16px;
+    color: #4a5568;
+  }
+  .select-model-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 16px; /* Add spacing below the text */
+    text-align: center;
+  }  
