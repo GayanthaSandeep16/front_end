@@ -1,6 +1,16 @@
 import './css/mstyle.css';
+import {useNavigate} from "react-router-dom";
 
 export default function MembershipForm() {
+
+    const navigate = useNavigate();
+
+    // @ts-ignore
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Add your form submission logic here
+        navigate('/demo');
+    };
     return (
         <div className="flex items-center justify-center min-h-screen">
             <div className="form-container">
@@ -44,7 +54,7 @@ export default function MembershipForm() {
                         <label>Tell us why you use this</label>
                         <textarea placeholder="Tell us.."></textarea>
                     </div>
-                    <button type="submit">Create Account</button>
+                     <button onClick={handleSubmit} >Create Account</button>
                 </form>
                 <p className="text-center text-sm mt-4">Already have an account? <a href="/sign-in" className="text-blue-500 font-semibold">Log in</a></p>
             </div>
