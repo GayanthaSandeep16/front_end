@@ -1,0 +1,110 @@
+/* Ensure full height */
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff !important; /* Force white background */
+  color: #1a202c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Full-screen container */
+.form-container {
+  width: 90%;
+  max-width: 800px; /* Adjust max width */
+  padding: 2rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+}
+
+/* Headline */
+.form-container h2 {
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #000000;
+}
+
+/* Form Grid */
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Full-width input fields */
+label {
+  font-weight: 600;
+  color: #4a5568;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #000000; /* Ensure black text */
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+input:focus, textarea:focus {
+  border-color: #3182ce;
+  outline: none;
+  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(49, 130, 206, 0.2);
+}
+
+/* Make textarea larger */
+textarea {
+  height: 100px;
+}
+
+/* Submit Button */
+button {
+  width: 100%;
+  background-color: #3182ce;
+  color: white;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #2b6cb0;
+}
+
+/* Login link */
+p a {
+  color: #3182ce;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+p a:hover {
+  color: #2b6cb0;
+}
+
+/* Make it fully responsive */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-container {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}
