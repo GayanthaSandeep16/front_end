@@ -1,6 +1,8 @@
-import { useState, FormEvent, ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import {useState, FormEvent, ChangeEvent, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 import "./css/mstyle.css";
+import {useUser} from "@clerk/clerk-react";
+
 
 interface FormData {
     name: string;
@@ -9,11 +11,13 @@ interface FormData {
     sector: string;
     organization: string;
     reason: string;
-    role: string
+    role: string;
+    clerk_id: string;
 }
 
 export default function MembershipForm() {
     const navigate = useNavigate();
+    const {user} = useUser();
 
     const [formData, setFormData] = useState<FormData>({
         name: "",
@@ -22,15 +26,26 @@ export default function MembershipForm() {
         sector: "",
         organization: "",
         reason: "",
-        role:"User"
+        role: "User",
+        clerk_id: "", // Initially empty
     });
 
     const [error, setError] = useState<string | null>(null);
 
+    // Ensure clerk_id is updated when user data is available
+    useEffect(() => {
+        if (user?.id) {
+            setFormData((prevData) => ({
+                ...prevData,
+                clerk_id: user.id, // Assign user ID
+            }));
+        }
+    }, [user]);
+
     const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -45,24 +60,29 @@ export default function MembershipForm() {
             return;
         }
 
-
+        if (!formData.clerk_id) {
+            setError("User authentication error: Clerk ID is missing.");
+            return;
+        }
 
         try {
             const response = await fetch("http://localhost:3000/api/createUser", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData),
             });
-            // console.log(String:FormData => );
+
             const result = await response.json();
 
             if (response.ok) {
                 navigate("/demo");
             } else {
                 setError(result.error || "An error occurred during sign-up.");
+                console.log(result.error)
             }
         } catch (err) {
             setError("An error occurred while making the request.");
+            console.log(err)
         }
     };
 
@@ -138,7 +158,7 @@ export default function MembershipForm() {
                     ></textarea>
 
                     {/* Error Display */}
-                    {error && <div style={{ color: "red" }}>{error}</div>}
+                    {error && <div style={{color: "red"}}>{error}</div>}
 
                     {/* Submit Button */}
                     <button type="submit">Create Account</button>
