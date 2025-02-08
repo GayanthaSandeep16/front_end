@@ -27,11 +27,27 @@ const Demo: React.FC = () => {
     }
   };
 
-  const handleSubmit = async () => {
-    if (!selectedModel || !file || !user) {
+     const handleSubmit = async () => {
+    if (!selectedModel || !file ) {
       setErrorMessage('Please select a model and file');
       return;
     }
+
+     const handleSubmit = async () => {
+    if (!selectedModel ) {
+      setErrorMessage('Please select a model');
+      return;
+    }
+    
+    if (!file) {
+      setErrorMessage('Please select a file');
+      return;
+    }
+    if (!user){
+      setErrorMessage('Please login first');
+      return;
+    }
+  };
 
     setUploadStatus('uploading');
     setErrorMessage(null);
@@ -39,6 +55,7 @@ const Demo: React.FC = () => {
     const formData = new FormData();
     // Change the key to 'files' if your server expects that:
     formData.append('files', file);
+    formData.append('clerkUserId', user.id);
     formData.append('model', selectedModel);
 
     try {
@@ -62,7 +79,6 @@ const Demo: React.FC = () => {
       console.log(error);
     }
   };
-
   return (
       <div className="page-container">
         <div className="content-container">

@@ -12,7 +12,7 @@ interface FormData {
     organization: string;
     reason: string;
     role: string;
-    clerk_id: string;
+    clerkUserId: string;
 }
 
 export default function MembershipForm() {
@@ -27,17 +27,17 @@ export default function MembershipForm() {
         organization: "",
         reason: "",
         role: "User",
-        clerk_id: "", // Initially empty
+        clerkUserId: "", // Initially empty
     });
 
     const [error, setError] = useState<string | null>(null);
 
-    // Ensure clerk_id is updated when user data is available
+    // Ensure clerkUserId is updated when user data is available
     useEffect(() => {
         if (user?.id) {
             setFormData((prevData) => ({
                 ...prevData,
-                clerk_id: user.id, // Assign user ID
+                clerkUserId: user.id, // Assign user ID
             }));
         }
     }, [user]);
@@ -60,7 +60,7 @@ export default function MembershipForm() {
             return;
         }
 
-        if (!formData.clerk_id) {
+        if (!formData.clerkUserId) {
             setError("User authentication error: Clerk ID is missing.");
             return;
         }
