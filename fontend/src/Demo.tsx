@@ -23,44 +23,36 @@ const Demo: React.FC = () => {
         setErrorMessage(null);
       } else {
         setErrorMessage('Only CSV files are allowed');
+        setFile(null); // Reset file if invalid
       }
     }
   };
 
-     const handleSubmit = async () => {
-    if (!selectedModel || !file ) {
-      setErrorMessage('Please select a model and file');
+  const handleSubmit = async () => {
+    if (!user) {
+      setErrorMessage('Please login first');
       return;
     }
-
-     const handleSubmit = async () => {
-    if (!selectedModel ) {
+    if (!selectedModel) {
       setErrorMessage('Please select a model');
       return;
     }
-    
     if (!file) {
       setErrorMessage('Please select a file');
       return;
     }
-    if (!user){
-      setErrorMessage('Please login first');
-      return;
-    }
-  };
 
     setUploadStatus('uploading');
     setErrorMessage(null);
 
     const formData = new FormData();
-    // Change the key to 'files' if your server expects that:
-    formData.append('files', file);
+    formData.append('files', file); // 'files' matches your server expectation
     formData.append('clerkUserId', user.id);
     formData.append('model', selectedModel);
 
     try {
       const token = await getToken();
-      const response = await fetch("http://localhost:3000/api/submit-data", {
+      const response = await fetch('http://localhost:3000/api/submit-data', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -75,60 +67,66 @@ const Demo: React.FC = () => {
       setUploadStatus('success');
     } catch (error: any) {
       setUploadStatus('error');
-      setErrorMessage(error.message);
-      console.log(error);
+      setErrorMessage(error.message || 'An error occurred during upload');
+      console.error(error);
     }
   };
+
   return (
-      <div className="page-container">
-        <div className="content-container">
-          <h2 className="select-model-text">Please select the model</h2>
-          <div className="models-section">
-            {models.map((model, index) => (
-                <div
-                    key={index}
-                    className={`model-card ${selectedModel === model ? 'selected' : ''}`}
-                    onClick={() => handleModelClick(model)}
-                >
-                  <h2 className="model-title">{model}</h2>
-                  <p className="model-description">Details about {model}...</p>
-                </div>
-            ))}
-          </div>
+    <div className="page-container">
+      <div className="content-container">
+        <h2 className="select-model-text">Please select the model</h2>
+        <div className="models-section">
+          {models.map((model, index) => (
+            <div
+              key={index}
+              className={`model-card ${selectedModel === model ? 'selected' : ''}`}
+              onClick={() => handleModelClick(model)}
+            >
+              <h2 className="model-title">{model}</h2>
+              <p className="model-description">Details about {model}...</p>
+            </div>
+          ))}
+        </div>
 
-          <h2 className="select-model-text">Upload your CSV data file.</h2>
-          <div className="drag-drop-section">
-            <p className="text-gray-600 text-lg">Drag and Drop here</p>
-            <p className="mt-4">or</p>
-            <label className="select-file-label">
-              Select file
-              <input
-                  type="file"
-                  className="hidden"
-                  onChange={handleFileChange}
-                  accept=".csv"
-              />
-            </label>
-          </div>
-
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-          <button
-              className="submit-button"
-              onClick={handleSubmit}
-              disabled={uploadStatus === 'uploading'}
-          >
-            {uploadStatus === 'uploading' ? 'Uploading...' : 'Submit'}
-          </button>
-
-          {/* Display a spinner when uploading */}
-          {uploadStatus === 'uploading' && <div className="spinner"></div>}
-
-          {uploadStatus === 'success' && (
-              <p className="success-message">Submission successful!</p>
+        <h2 className="select-model-text">Upload your CSV data file</h2>
+        <div className="drag-drop-section">
+          <p className="text-gray-600 text-lg">Drag and Drop here</p>
+          <p className="mt-4">or</p>
+          <label className="select-file-label">
+            Select file
+            <input
+              type="file"
+              className="hidden"
+              onChange={handleFileChange}
+              accept=".csv"
+            />
+          </label>
+          {file && (
+            <p className="mt-2 text-green-600">
+              Selected file: {file.name}
+            </p>
           )}
         </div>
+
+        {errorMessage && <p className="error-message text-red-600">{errorMessage}</p>}
+
+        <button
+          className="submit-button"
+          onClick={handleSubmit}
+          disabled={uploadStatus === 'uploading'}
+        >
+          {uploadStatus === 'uploading' ? 'Uploading...' : 'Submit'}
+        </button>
+
+        {uploadStatus === 'success' && (
+          <p className="success-message text-green-600">Submission successful!</p>
+        )}
+        {uploadStatus === 'error' && !errorMessage && (
+          <p className="error-message text-red-600">Upload failed. Please try again.</p>
+        )}
       </div>
+    </div>
   );
 };
 
